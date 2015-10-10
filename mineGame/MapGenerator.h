@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  MapGenerator.h
 //  mineGame
 //
 //  Created by masapp on 2015/05/03.
@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface MapGenerator : UIViewController
 
-@property (strong, nonatomic) UIWindow *window;
-
+- (NSMutableArray *)twoDimensionalArrayForMap;
 
 @end
 
