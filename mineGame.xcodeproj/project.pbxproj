@@ -44,6 +44,7 @@
 		7BC73DAE2084366D00D98FC9 /* MapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DAD2084366D00D98FC9 /* MapGenerator.swift */; };
 		7BC73DB1208460C100D98FC9 /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DB0208460C100D98FC9 /* MapSettings.swift */; };
 		7BC73DB4208476D900D98FC9 /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DB3208476D900D98FC9 /* Array+Utils.swift */; };
+		7BC73DB6208493BF00D98FC9 /* AdSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DB5208493BF00D98FC9 /* AdSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		7BC73DAD2084366D00D98FC9 /* MapGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapGenerator.swift; path = Classes/MapGenerator.swift; sourceTree = "<group>"; };
 		7BC73DB0208460C100D98FC9 /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapSettings.swift; path = Classes/Constant/MapSettings.swift; sourceTree = "<group>"; };
 		7BC73DB3208476D900D98FC9 /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Array+Utils.swift"; path = "Classes/Extension/Array+Utils.swift"; sourceTree = "<group>"; };
+		7BC73DB5208493BF00D98FC9 /* AdSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdSettings.swift; path = Classes/Constant/AdSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				7BC73DB0208460C100D98FC9 /* MapSettings.swift */,
+				7BC73DB5208493BF00D98FC9 /* AdSettings.swift */,
 			);
 			name = Constant;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				7BC73DB4208476D900D98FC9 /* Array+Utils.swift in Sources */,
 				7BC73DAE2084366D00D98FC9 /* MapGenerator.swift in Sources */,
 				7BC73DA7208433D300D98FC9 /* AppDelegate.swift in Sources */,
+				7BC73DB6208493BF00D98FC9 /* AdSettings.swift in Sources */,
 				7BC73DB1208460C100D98FC9 /* MapSettings.swift in Sources */,
 				7BC73DAA2084345B00D98FC9 /* TitleViewController.swift in Sources */,
 			);

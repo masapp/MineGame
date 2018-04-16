@@ -2,8 +2,8 @@
 //  TitleViewController.swift
 //  mineGame
 //
-//  Created by 石川 雅之 on 2018/04/16.
-//  Copyright © 2018 org.masapp. All rights reserved.
+//  Created by masapp on 2018/04/16.
+//  Copyright © 2018 masapp. All rights reserved.
 //
 
 import UIKit
