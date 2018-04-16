@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class GameViewController: UIViewController {
     
@@ -33,7 +34,7 @@ class GameViewController: UIViewController {
         
         let windowSize = UIScreen.main.bounds
         wscale = windowSize.size.width / 320
-        hscale = windowSize.size.height / 568
+        hscale = windowSize.size.height / 518
         squareWidth = 21.5 * wscale
         squareHeight = 21.5 * hscale
         groundWidth = squareWidth * 0.975
@@ -82,6 +83,12 @@ class GameViewController: UIViewController {
         stageCount = 1
         
         self.stageStart()
+        
+        let bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID = AdSettings.unitID
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        self.addBannerViewToView(bannerView)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -351,6 +358,27 @@ class GameViewController: UIViewController {
             self.view.addSubview(bombCount)
             self.view.bringSubview(toFront: charactor)
         }
+    }
+    
+    private func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(bannerView)
+        self.view.addConstraints(
+            [NSLayoutConstraint(item: bannerView,
+                                attribute: .bottom,
+                                relatedBy: .equal,
+                                toItem: bottomLayoutGuide,
+                                attribute: .top,
+                                multiplier: 1,
+                                constant: 0),
+             NSLayoutConstraint(item: bannerView,
+                                attribute: .centerX,
+                                relatedBy: .equal,
+                                toItem: view,
+                                attribute: .centerX,
+                                multiplier: 1,
+                                constant: 0)
+            ])
     }
     
     // MARK: - @objc function
