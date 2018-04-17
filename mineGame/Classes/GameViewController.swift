@@ -27,12 +27,21 @@ class GameViewController: UIViewController {
     private var stageCount: Int = 0
     private var status: String = ""
     private var map: [[Int]] = []
+    private var safeAreaInsets = UIEdgeInsets.zero
     
     // MARK: - UIViewController
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        let windowSize = UIScreen.main.bounds
+        if #available(iOS 11, *) {
+            safeAreaInsets = self.view.safeAreaInsets
+        } else {
+            safeAreaInsets = UIEdgeInsetsMake(UIApplication.shared.statusBarFrame.height, 0, 0, 0)
+        }
+        
+        let width: CGFloat = self.view.frame.width - (safeAreaInsets.left + safeAreaInsets.right)
+        let height: CGFloat = self.view.frame.height - (safeAreaInsets.top + safeAreaInsets.bottom)
+        let windowSize = CGRect(x: safeAreaInsets.left, y: safeAreaInsets.top, width: width, height: height)
         wscale = windowSize.size.width / 320
         hscale = windowSize.size.height / 518
         squareWidth = 21.5 * wscale
@@ -41,7 +50,7 @@ class GameViewController: UIViewController {
         groundHeight = squareHeight * 0.975
         
         // background
-        let background = UIImageView(frame: UIScreen.main.bounds)
+        let background = UIImageView(frame: CGRect(x: windowSize.origin.x, y: windowSize.origin.y, width: windowSize.width, height: windowSize.height - 50))
         background.image = UIImage(named: "grass")
         self.view.addSubview(background)
         
