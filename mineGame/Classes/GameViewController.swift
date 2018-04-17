@@ -33,6 +33,7 @@ class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // safe area
         if #available(iOS 11, *) {
             safeAreaInsets = self.view.safeAreaInsets
         } else {
@@ -50,24 +51,24 @@ class GameViewController: UIViewController {
         groundHeight = squareHeight * 0.975
         
         // background
-        let background = UIImageView(frame: CGRect(x: windowSize.origin.x, y: windowSize.origin.y, width: windowSize.width, height: windowSize.height - 50))
+        let background = UIImageView(frame: CGRect(x: windowSize.origin.x, y: 0, width: windowSize.width, height: self.view.frame.height - safeAreaInsets.bottom - 50))
         background.image = UIImage(named: "grass")
         self.view.addSubview(background)
         
         // charactor control button
-        let controlRect = CGRect(x: 9.6 * wscale, y: 421 * hscale - 50, width: 96 * wscale, height: 96 * hscale)
+        let controlRect = CGRect(x: 9.6 * wscale, y: 421 * hscale - 50 + safeAreaInsets.top, width: 96 * wscale, height: 96 * hscale)
         let control = UIImageView(frame: controlRect)
         control.image = UIImage(named: "button_control")
         self.view.addSubview(control)
         
         // chara at say numbers
-        let charactorRect = CGRect(x: 166.4 * wscale, y: 421 * hscale - 50, width: 150.4 * wscale, height: 96 * hscale)
+        let charactorRect = CGRect(x: 166.4 * wscale, y: 421 * hscale - 50 + safeAreaInsets.top, width: 150.4 * wscale, height: 96 * hscale)
         let sayCharactor = UIImageView(frame: charactorRect)
         sayCharactor.image = UIImage(named: "usayuki")
         self.view.addSubview(sayCharactor)
         
         // current number
-        currentNumber.frame = CGRect(x: 189 * wscale, y: 415 * hscale - 50, width: 96 * wscale, height: 96 * hscale)
+        currentNumber.frame = CGRect(x: 189 * wscale, y: 415 * hscale - 50 + safeAreaInsets.top, width: 96 * wscale, height: 96 * hscale)
         currentNumber.font = UIFont.systemFont(ofSize: 70 * wscale)
         self.view.addSubview(currentNumber)
         
@@ -93,6 +94,7 @@ class GameViewController: UIViewController {
         
         self.stageStart()
         
+        // footer banner ad
         let bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         bannerView.adUnitID = AdSettings.unitID
         bannerView.rootViewController = self
@@ -107,7 +109,7 @@ class GameViewController: UIViewController {
             if status == "play" {
                 // up or down
                 if 41.5 * wscale <= location.x && location.x <= 75 * wscale {
-                    if 425 * hscale - 50 <= location.y && location.y <= 455.5 * hscale - 50 {
+                    if 425 * hscale - 50 + safeAreaInsets.top <= location.y && location.y <= 455.5 * hscale - 50 + safeAreaInsets.top {
                         charactor.image = UIImage(named: "back")
                         self.moveCharactor(point: CGPoint(x: 0, y: -squareHeight))
                     } else if 485 * hscale - 50 <= location.y && location.y <= 515 * hscale - 50 {
@@ -117,7 +119,7 @@ class GameViewController: UIViewController {
                 }
                 
                 // left or right
-                if 455.5 * hscale - 50 <= location.y && location.y <= 485 * hscale - 50 {
+                if 455.5 * hscale - 50 + safeAreaInsets.top <= location.y && location.y <= 485 * hscale - 50 + safeAreaInsets.top {
                     if 10 * wscale <= location.x && location.x <= 42 * wscale {
                         charactor.image = UIImage(named: "left")
                         self.moveCharactor(point: CGPoint(x: -squareWidth, y: 0))
@@ -156,7 +158,7 @@ class GameViewController: UIViewController {
         for i in 0 ..< mapArray.count {
             for j in 0 ..< mapArray[i].count {
                 // ground
-                let groundRect = CGRect(x: squareWidth * CGFloat(j + 1), y: squareHeight * CGFloat(i + 1), width: groundWidth, height: groundHeight)
+                let groundRect = CGRect(x: squareWidth * CGFloat(j + 1), y: squareHeight * CGFloat(i + 1) + safeAreaInsets.top, width: groundWidth, height: groundHeight)
                 let ground = UIImageView(frame: groundRect)
                 ground.image = UIImage(named: "soil")
                 self.view.addSubview(ground)
@@ -166,37 +168,37 @@ class GameViewController: UIViewController {
     
     private func drawFence() {
         // left top corner
-        let leftTopRect = CGRect(x: 0, y: 0, width: groundWidth, height: groundHeight)
+        let leftTopRect = CGRect(x: 0, y: safeAreaInsets.top, width: groundWidth, height: groundHeight)
         let leftTopCorner = UIImageView(frame: leftTopRect)
         leftTopCorner.image = UIImage(named: "left_top_corner")
         self.view.addSubview(leftTopCorner)
         
         // right top corner
-        let rightTopRect = CGRect(x: squareWidth * 14, y: 0, width: groundWidth, height: groundHeight)
+        let rightTopRect = CGRect(x: squareWidth * 14, y: safeAreaInsets.top, width: groundWidth, height: groundHeight)
         let rightTopCorner = UIImageView(frame: rightTopRect)
         rightTopCorner.image = UIImage(named: "right_top_corner")
         self.view.addSubview(rightTopCorner)
         
         // left under corner
-        let leftUnderRect = CGRect(x: 0, y: squareHeight * 21, width: groundWidth, height: groundHeight)
+        let leftUnderRect = CGRect(x: 0, y: squareHeight * 21 + safeAreaInsets.top, width: groundWidth, height: groundHeight)
         let leftUnderCorner = UIImageView(frame: leftUnderRect)
         leftUnderCorner.image = UIImage(named: "left_under_corner")
         self.view.addSubview(leftUnderCorner)
         
         // right under corner
-        let rightUnderRect = CGRect(x: squareWidth * 14, y: squareHeight * 21, width: groundWidth, height: groundHeight)
+        let rightUnderRect = CGRect(x: squareWidth * 14, y: squareHeight * 21 + safeAreaInsets.top, width: groundWidth, height: groundHeight)
         let rightUnderCorner = UIImageView(frame: rightUnderRect)
         rightUnderCorner.image = UIImage(named: "right_under_corner")
         self.view.addSubview(rightUnderCorner)
         
         // height
         for i in 0 ..< 20 {
-            let leftHeightRect = CGRect(x: 0, y: squareHeight * CGFloat(i + 1), width: groundWidth, height: groundHeight)
+            let leftHeightRect = CGRect(x: 0, y: squareHeight * CGFloat(i + 1) + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let leftHeight = UIImageView(frame: leftHeightRect)
             leftHeight.image = UIImage(named: "height")
             self.view.addSubview(leftHeight)
             
-            let rightHeightRect = CGRect(x: squareWidth * 14, y: squareHeight * CGFloat(i + 1), width: groundWidth, height: groundHeight)
+            let rightHeightRect = CGRect(x: squareWidth * 14, y: squareHeight * CGFloat(i + 1) + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let rightHeight = UIImageView(frame: rightHeightRect)
             rightHeight.image = UIImage(named: "height")
             self.view.addSubview(rightHeight)
@@ -204,22 +206,22 @@ class GameViewController: UIViewController {
         
         // width
         for i in 0 ..< 5 {
-            let leftTopRect = CGRect(x: squareWidth * CGFloat(i + 1), y: 0, width: groundWidth, height: groundHeight)
+            let leftTopRect = CGRect(x: squareWidth * CGFloat(i + 1), y: safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let leftTopWidth = UIImageView(frame: leftTopRect)
             leftTopWidth.image = UIImage(named: "width")
             self.view.addSubview(leftTopWidth)
             
-            let rightTopRect = CGRect(x: squareWidth * CGFloat(i + 9), y: 0, width: groundWidth, height: groundHeight)
+            let rightTopRect = CGRect(x: squareWidth * CGFloat(i + 9), y: safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let rightTopWidth = UIImageView(frame: rightTopRect)
             rightTopWidth.image = UIImage(named: "width")
             self.view.addSubview(rightTopWidth)
             
-            let leftUnderRect = CGRect(x: squareWidth * CGFloat(i + 1), y: squareHeight * 21, width: groundWidth, height: groundHeight)
+            let leftUnderRect = CGRect(x: squareWidth * CGFloat(i + 1), y: squareHeight * 21 + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let leftUnderWidth = UIImageView(frame: leftUnderRect)
             leftUnderWidth.image = UIImage(named: "width")
             self.view.addSubview(leftUnderWidth)
             
-            let rightUnderRect = CGRect(x: squareWidth * CGFloat(i + 9), y: squareHeight * 21, width: groundWidth, height: groundHeight)
+            let rightUnderRect = CGRect(x: squareWidth * CGFloat(i + 9), y: squareHeight * 21 + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let rightUnderWidth = UIImageView(frame: rightUnderRect)
             rightUnderWidth.image = UIImage(named: "width")
             self.view.addSubview(rightUnderWidth)
@@ -227,17 +229,17 @@ class GameViewController: UIViewController {
         
         // start and end
         for i in 0 ..< 2 {
-            let leftEndRect = CGRect(x: squareWidth * 8, y: squareHeight * CGFloat(21 * i), width: groundWidth, height: groundHeight)
+            let leftEndRect = CGRect(x: squareWidth * 8, y: squareHeight * CGFloat(21 * i) + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let leftEnd = UIImageView(frame: leftEndRect)
             leftEnd.image = UIImage(named: "left_end")
             self.view.addSubview(leftEnd)
             
-            let rightEndRect = CGRect(x: squareWidth * 6, y: squareHeight * CGFloat(21 * i), width: groundWidth, height: groundHeight)
+            let rightEndRect = CGRect(x: squareWidth * 6, y: squareHeight * CGFloat(21 * i) + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let rightEnd = UIImageView(frame: rightEndRect)
             rightEnd.image = UIImage(named: "right_end")
             self.view.addSubview(rightEnd)
             
-            let flatRect = CGRect(x: squareWidth * 7, y: squareHeight * CGFloat(21 * i), width: groundWidth, height: groundHeight)
+            let flatRect = CGRect(x: squareWidth * 7, y: squareHeight * CGFloat(21 * i) + safeAreaInsets.top, width: groundWidth, height: groundHeight)
             let flat = UIImageView(frame: flatRect)
             flat.image = UIImage(named: "grass")
             self.view.addSubview(flat)
@@ -246,7 +248,7 @@ class GameViewController: UIViewController {
     
     // put the charactor to the start position
     private func setCharactor() {
-        charactor.frame = CGRect(x: squareWidth * 7, y: squareHeight * 21, width: groundWidth, height: groundHeight)
+        charactor.frame = CGRect(x: squareWidth * 7, y: squareHeight * 21 + safeAreaInsets.top, width: groundWidth, height: groundHeight)
         charactor.image = UIImage(named: "back")
         self.view.addSubview(charactor)
     }
