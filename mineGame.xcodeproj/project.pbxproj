@@ -43,7 +43,6 @@
 		7BC73DAC2084354800D98FC9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DAB2084354800D98FC9 /* GameViewController.swift */; };
 		7BC73DAE2084366D00D98FC9 /* MapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DAD2084366D00D98FC9 /* MapGenerator.swift */; };
 		7BC73DB1208460C100D98FC9 /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DB0208460C100D98FC9 /* MapSettings.swift */; };
-		7BC73DB4208476D900D98FC9 /* Array+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DB3208476D900D98FC9 /* Array+Utils.swift */; };
 		7BC73DB6208493BF00D98FC9 /* AdSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC73DB5208493BF00D98FC9 /* AdSettings.swift */; };
 		83D90B740AA3BEA172416387 /* Pods_mineGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27532D12F3EB6F4FB9835C9C /* Pods_mineGame.framework */; };
 /* End PBXBuildFile section */
@@ -88,7 +87,6 @@
 		7BC73DAB2084354800D98FC9 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = Classes/GameViewController.swift; sourceTree = "<group>"; };
 		7BC73DAD2084366D00D98FC9 /* MapGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapGenerator.swift; path = Classes/MapGenerator.swift; sourceTree = "<group>"; };
 		7BC73DB0208460C100D98FC9 /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapSettings.swift; path = Classes/Constant/MapSettings.swift; sourceTree = "<group>"; };
-		7BC73DB3208476D900D98FC9 /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Array+Utils.swift"; path = "Classes/Extension/Array+Utils.swift"; sourceTree = "<group>"; };
 		7BC73DB5208493BF00D98FC9 /* AdSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdSettings.swift; path = Classes/Constant/AdSettings.swift; sourceTree = "<group>"; };
 		9997E210721ABC1CCDD9215D /* Pods-mineGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mineGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mineGame/Pods-mineGame.debug.xcconfig"; sourceTree = "<group>"; };
 		99F952148A6D34C8EE1C8182 /* Pods-mineGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mineGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-mineGame/Pods-mineGame.release.xcconfig"; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 		7BC73DA82084341500D98FC9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7BC73DB2208476C900D98FC9 /* Extension */,
 				7BC73DAF208460B200D98FC9 /* Constant */,
 				7BC73DA6208433D300D98FC9 /* AppDelegate.swift */,
 				7BC73DA92084345B00D98FC9 /* TitleViewController.swift */,
@@ -232,14 +229,6 @@
 				7BC73DB5208493BF00D98FC9 /* AdSettings.swift */,
 			);
 			name = Constant;
-			sourceTree = "<group>";
-		};
-		7BC73DB2208476C900D98FC9 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				7BC73DB3208476D900D98FC9 /* Array+Utils.swift */,
-			);
-			name = Extension;
 			sourceTree = "<group>";
 		};
 		F129AB013261598A576BACA9 /* Frameworks */ = {
@@ -411,7 +400,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BC73DAC2084354800D98FC9 /* GameViewController.swift in Sources */,
-				7BC73DB4208476D900D98FC9 /* Array+Utils.swift in Sources */,
 				7BC73DAE2084366D00D98FC9 /* MapGenerator.swift in Sources */,
 				7BC73DA7208433D300D98FC9 /* AppDelegate.swift in Sources */,
 				7BC73DB6208493BF00D98FC9 /* AdSettings.swift in Sources */,

@@ -54,9 +54,9 @@ class MapGenerator {
             shuffleArray[Int(randomNum)] = object
         }
         
-        //add field element of start and finish squares
+        // add field element of start and finish squares
         shuffleArray.insert(0, at: 6)
-        shuffleArray.insert(0, at: 235)
+        shuffleArray.insert(0, at: 253)
         
         return shuffleArray
     }
