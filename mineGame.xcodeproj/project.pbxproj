@@ -282,6 +282,7 @@
 				TargetAttributes = {
 					582214921AF5E0C7006BAF6A = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = XV83PN95AE;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 					};
