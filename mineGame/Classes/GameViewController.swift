@@ -36,7 +36,7 @@ class GameViewController: UIViewController {
         wscale = windowSize.size.width / 320
         hscale = windowSize.size.height / 518
         squareWidth = 21.5 * wscale
-        squareHeight = 21.5 * hscale
+        squareHeight = 17 * hscale
         groundWidth = squareWidth * 0.975
         groundHeight = squareHeight * 0.975
         
@@ -46,19 +46,19 @@ class GameViewController: UIViewController {
         self.view.addSubview(background)
         
         // charactor control button
-        let controlRect = CGRect(x: 9.6 * wscale, y: 471 * hscale, width: 96 * wscale, height: 96 * hscale)
+        let controlRect = CGRect(x: 9.6 * wscale, y: 421 * hscale - 50, width: 96 * wscale, height: 96 * hscale)
         let control = UIImageView(frame: controlRect)
         control.image = UIImage(named: "button_control")
         self.view.addSubview(control)
         
         // chara at say numbers
-        let charactorRect = CGRect(x: 166.4 * wscale, y: 471 * hscale, width: 150.4 * wscale, height: 96 * hscale)
+        let charactorRect = CGRect(x: 166.4 * wscale, y: 421 * hscale - 50, width: 150.4 * wscale, height: 96 * hscale)
         let sayCharactor = UIImageView(frame: charactorRect)
         sayCharactor.image = UIImage(named: "usayuki")
         self.view.addSubview(sayCharactor)
         
         // current number
-        currentNumber.frame = CGRect(x: 189 * wscale, y: 465 * hscale, width: 96 * wscale, height: 96 * hscale)
+        currentNumber.frame = CGRect(x: 189 * wscale, y: 415 * hscale - 50, width: 96 * wscale, height: 96 * hscale)
         currentNumber.font = UIFont.systemFont(ofSize: 70 * wscale)
         self.view.addSubview(currentNumber)
         
@@ -98,17 +98,17 @@ class GameViewController: UIViewController {
             if status == "play" {
                 // up or down
                 if 41.5 * wscale <= location.x && location.x <= 75 * wscale {
-                    if 475 * hscale <= location.y && location.y <= 505.5 * hscale {
+                    if 425 * hscale - 50 <= location.y && location.y <= 455.5 * hscale - 50 {
                         charactor.image = UIImage(named: "back")
                         self.moveCharactor(point: CGPoint(x: 0, y: -squareHeight))
-                    } else if 535 * hscale <= location.y && location.y <= 565 * hscale {
+                    } else if 485 * hscale - 50 <= location.y && location.y <= 515 * hscale - 50 {
                         charactor.image = UIImage(named: "front")
                         self.moveCharactor(point: CGPoint(x: 0, y: squareHeight))
                     }
                 }
                 
                 // left or right
-                if 505.5 * hscale <= location.y && location.y <= 535 * hscale {
+                if 455.5 * hscale - 50 <= location.y && location.y <= 485 * hscale - 50 {
                     if 10 * wscale <= location.x && location.x <= 42 * wscale {
                         charactor.image = UIImage(named: "left")
                         self.moveCharactor(point: CGPoint(x: -squareWidth, y: 0))
