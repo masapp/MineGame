@@ -112,7 +112,7 @@ class GameViewController: UIViewController {
                     if 425 * hscale - 50 + safeAreaInsets.top <= location.y && location.y <= 455.5 * hscale - 50 + safeAreaInsets.top {
                         charactor.image = UIImage(named: "back")
                         self.moveCharactor(point: CGPoint(x: 0, y: -squareHeight))
-                    } else if 485 * hscale - 50 <= location.y && location.y <= 515 * hscale - 50 {
+                    } else if 485 * hscale - 50 + safeAreaInsets.top <= location.y && location.y <= 515 * hscale - 50 + safeAreaInsets.top {
                         charactor.image = UIImage(named: "front")
                         self.moveCharactor(point: CGPoint(x: 0, y: squareHeight))
                     }
@@ -262,8 +262,8 @@ class GameViewController: UIViewController {
         // charactor move
         charactor.frame.origin.x = nowPoint.x + point.x
         charactor.frame.origin.y = nowPoint.y + point.y
-        
-        if charactor.frame.origin.x == squareWidth * 7 && round(charactor.frame.origin.y) == 0 {
+
+        if round(charactor.frame.origin.x) == round(squareWidth * 7) && round(charactor.frame.origin.y) - safeAreaInsets.top == 0 {
             self.stageComplete()
             return
         }
@@ -276,7 +276,7 @@ class GameViewController: UIViewController {
         let nowPoint = charactor.frame.origin
         
         // start position
-        if nowPoint.x == squareWidth * 7 && nowPoint.y == squareHeight * 21 {
+        if nowPoint.x == squareWidth * 7 && nowPoint.y - safeAreaInsets.top == squareHeight * 21 {
             if point.x != 0 {
                 return true
             }
@@ -293,13 +293,13 @@ class GameViewController: UIViewController {
         }
         
         // down validate
-        if nowPoint.y >= squareHeight * 20 && point.y == squareHeight {
+        if nowPoint.y - safeAreaInsets.top >= squareHeight * 20 && point.y == squareHeight {
             return true
         }
         
         // up validate
-        if round(nowPoint.y) <= round(squareHeight) && point.y == -squareHeight {
-            if nowPoint.x != squareWidth * 7 || round(nowPoint.y) != round(squareHeight) {
+        if round(nowPoint.y) - safeAreaInsets.top <= round(squareHeight) && point.y == -squareHeight {
+            if round(nowPoint.x) != round(squareWidth * 7) || round(nowPoint.y) - safeAreaInsets.top != round(squareHeight) {
                 return true
             }
         }
@@ -345,7 +345,7 @@ class GameViewController: UIViewController {
     }
     
     private func getSquareNumber(point: CGPoint) -> Int {
-        let i = Int(point.y / squareHeight - 1)
+        let i = Int((point.y - safeAreaInsets.top) / squareHeight - 1)
         let j = Int(point.x / squareWidth - 1)
         return self.map[i][j]
     }
