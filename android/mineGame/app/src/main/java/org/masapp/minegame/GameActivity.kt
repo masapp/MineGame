@@ -67,25 +67,37 @@ class GameActivity : Activity() {
 
     // background
     val background = ImageView(this)
-    val backgroundImage: Bitmap? = getBitmapFromAssets("ground/grass.png")
+    val backgroundImage = getBitmapFromAssets("ground/grass.png")
     background.setImageBitmap(backgroundImage)
     background.scaleType = ImageView.ScaleType.FIT_XY
     val backgroundLP = RelativeLayout.LayoutParams(displaySize.x, displaySize.y - 50.dp)
     backgroundLP.addRule(RelativeLayout.ALIGN_PARENT_TOP)
     relativeLayout.addView(background, backgroundLP)
 
-//    // charactor control button
-//    let controlRect = CGRect(x: 9.6 * wscale, y: 421 * hscale - 50 + safeAreaInsets.top, width: 96 * wscale, height: 96 * hscale)
-//    let control = UIImageView(frame: controlRect)
-//    control.image = UIImage(named: "button_control")
-//    self.view.addSubview(control)
-//
+    // charactor control button
+    val control = ImageView(this)
+    val controlImage = getBitmapFromAssets("footer/button_control.png")
+    control.setImageBitmap(controlImage)
+    val controlLP = RelativeLayout.LayoutParams((96 * wscale).toInt(), (96 * hscale).toInt())
+    controlLP.leftMargin = (9.6 * wscale).toInt()
+    controlLP.topMargin = displaySize.y - 50.dp - (96 * hscale).toInt()
+    relativeLayout.addView(control, controlLP)
+
 //    // chara at say numbers
 //    let charactorRect = CGRect(x: 166.4 * wscale, y: 421 * hscale - 50 + safeAreaInsets.top, width: 150.4 * wscale, height: 96 * hscale)
 //    let sayCharactor = UIImageView(frame: charactorRect)
 //    sayCharactor.image = UIImage(named: "usayuki")
 //    self.view.addSubview(sayCharactor)
-//
+
+    // charactor at say numbers
+    val sayCharactor = ImageView(this)
+    val sayCharactorImage = getBitmapFromAssets("footer/usayuki.png")
+    sayCharactor.setImageBitmap(sayCharactorImage)
+    val sayCharactorLP = RelativeLayout.LayoutParams((150.4 * wscale).toInt(), (96 * hscale).toInt())
+    sayCharactorLP.leftMargin = (166.4 * wscale).toInt()
+    sayCharactorLP.topMargin = displaySize.y - 50.dp - (96 * hscale).toInt()
+    relativeLayout.addView(sayCharactor, sayCharactorLP)
+
 //    // current number
 //    currentNumber.frame = CGRect(x: 189 * wscale, y: 415 * hscale - 50 + safeAreaInsets.top, width: 96 * wscale, height: 96 * hscale)
 //    currentNumber.font = UIFont.systemFont(ofSize: 70 * wscale)

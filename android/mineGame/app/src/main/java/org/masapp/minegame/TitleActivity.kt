@@ -23,7 +23,7 @@ class TitleActivity : Activity() {
 
     val constraintLayout = findViewById(R.id.constraintLayout) as ConstraintLayout
     val imageView = ImageView(this)
-    val titleImage: Bitmap? = getBitmapFromAssets("title.png")
+    val titleImage = getBitmapFromAssets("title.png")
     imageView.setImageBitmap(titleImage)
     imageView.scaleType = ImageView.ScaleType.FIT_XY
     constraintLayout.addView(imageView)
