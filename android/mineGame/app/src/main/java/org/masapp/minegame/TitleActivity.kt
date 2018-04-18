@@ -1,5 +1,6 @@
 package org.masapp.minegame
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,7 +15,7 @@ import java.io.IOException
 /**
  * Created by masapp on 2018/04/18.
  */
-class TitleActivity : AppCompatActivity() {
+class TitleActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
