@@ -56,8 +56,8 @@ class MapGenerator {
 
   private fun bombCount(map: MutableList<MutableList<Int>>): MutableList<MutableList<Int>> {
     var countMap = map
-    for (i in countMap.indices) {
-      for (j in countMap[i].indices) {
+    for (i in 0 .. countMap.size - 1) {
+      for (j in 0 .. countMap[i].size - 1) {
         if (countMap[i][j] != -1) {
           continue
         }

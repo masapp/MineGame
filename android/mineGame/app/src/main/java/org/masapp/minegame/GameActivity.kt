@@ -132,8 +132,8 @@ class GameActivity : Activity() {
     stageInfoLabel = TextView(this)
     stageInfoLabel.setTextColor(Color.WHITE)
     stageInfoLabel.textSize = 11 * wscale
-    val stageInfoLabelLP = RelativeLayout.LayoutParams((490 * wscale).toInt(), (55 * hscale).toInt())
-    stageInfoLabelLP.leftMargin = (80 * wscale).toInt()
+    stageInfoLabel.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+    val stageInfoLabelLP = RelativeLayout.LayoutParams(displaySize.x, (51 * hscale).toInt())
     stageInfoLabelLP.topMargin = (199 * hscale).toInt()
     stageInfoLabel.layoutParams = stageInfoLabelLP
 
@@ -142,7 +142,7 @@ class GameActivity : Activity() {
     retryLabel.textSize = 11 * wscale
     retryLabel.text = "retry"
     val retryLabelLP = RelativeLayout.LayoutParams((99 * wscale).toInt(), (51 * hscale).toInt())
-    retryLabelLP.leftMargin = (80 * wscale).toInt()
+    retryLabelLP.leftMargin = (50 * wscale).toInt()
     retryLabelLP.topMargin = (295 * hscale).toInt()
     retryLabel.layoutParams = retryLabelLP
 
@@ -151,7 +151,7 @@ class GameActivity : Activity() {
     titleLabel.textSize = 11 * wscale
     titleLabel.text = "title"
     val titleLabelLP = RelativeLayout.LayoutParams((99 * wscale).toInt(), (51 * hscale).toInt())
-    titleLabelLP.leftMargin = (202 * wscale).toInt()
+    titleLabelLP.leftMargin = (210 * wscale).toInt()
     titleLabelLP.topMargin = (295 * hscale).toInt()
     titleLabel.layoutParams = titleLabelLP
 
@@ -170,33 +170,33 @@ class GameActivity : Activity() {
           if (41.5 * wscale <= event.x && event.x <= 75 * wscale) {
             if (425 * hscale - 50.dp <= event.y && event.y <= 455.5 * hscale - 50.dp) {
               charactor.setImageBitmap(backImage)
-              moveCharactor(Point(0, -squareHeight.toInt()))
+              moveCharactor(0f, -squareHeight)
             } else if (485 * hscale - 50.dp <= event.y && event.y <= 515 * hscale - 50.dp) {
               charactor.setImageBitmap(frontImage)
-              moveCharactor(Point(0, squareHeight.toInt()))
+              moveCharactor(0f, squareHeight)
             }
           }
           // left or right
           if (455.5 * hscale - 50.dp <= event.y && event.y <= 485 * hscale - 50.dp) {
             if (10 * wscale <= event.x && event.x <= 42 * wscale) {
               charactor.setImageBitmap(leftImage)
-              moveCharactor(Point(-squareWidth.toInt(), 0))
+              moveCharactor(-squareWidth, 0f)
             } else if (77 * wscale <= event.x && event.x <= 105 * wscale) {
               charactor.setImageBitmap(rightImage)
-              moveCharactor(Point(squareWidth.toInt(), 0))
+              moveCharactor(squareWidth, 0f)
             }
           }
         }
         "gameOver" -> {
           if (312 * hscale <= event.y && event.y <= 340 * hscale) {
-            if (80 * wscale <= event.x && event.x <= 145 * wscale) {
+            if (50 * wscale <= event.x && event.x <= 115 * wscale) {
               stageCount = 1
               relativeLayout.removeView(stageInfo)
               relativeLayout.removeView(stageInfoLabel)
               relativeLayout.removeView(retryLabel)
               relativeLayout.removeView(titleLabel)
               stageStart()
-            } else if (195 * wscale <= event.x && event.x <= 255 * wscale) {
+            } else if (203 * wscale <= event.x && event.x <= 263 * wscale) {
               finish()
             }
           }
@@ -438,18 +438,18 @@ class GameActivity : Activity() {
     relativeLayout.addView(charactor)
   }
 
-  private fun moveCharactor(point: Point) {
+  private fun moveCharactor(pointX: Float, pointY: Float) {
     val nowPointX = charactor.x
     val nowPointY = charactor.y
-    if (moveValidate(point)) {
+    if (moveValidate(pointX, pointY)) {
       return
     }
 
     // charactor move
-    charactor.x = nowPointX + point.x
-    charactor.y = nowPointY + point.y
+    charactor.x = nowPointX + pointX
+    charactor.y = nowPointY + pointY
 
-    if (Math.round(charactor.x) == Math.round(squareWidth * 7) && Math.round(charactor.y) == 0) {
+    if ((charactor.x).toInt() == (squareWidth * 7).toInt() && (charactor.y).toInt() == 0) {
       stageComplete()
       return
     }
@@ -458,35 +458,35 @@ class GameActivity : Activity() {
     checkBomb(Point(charactor.x.toInt(), charactor.y.toInt()))
   }
 
-  private fun moveValidate(point: Point): Boolean {
+  private fun moveValidate(pointX: Float, pointY: Float): Boolean {
     val nowPointX = charactor.x
     val nowPointY = charactor.y
 
     // start position
-    if (nowPointX == squareWidth * 7 && nowPointY == squareHeight * 21) {
-      if (point.x != 0) {
+    if (nowPointX.toInt() == (squareWidth * 7).toInt() && nowPointY.toInt() == (squareHeight * 21).toInt()) {
+      if (pointX.toInt() != 0) {
         return true
       }
     }
 
     // left validate
-    if (nowPointX <= squareWidth && point.x == -squareWidth.toInt()) {
+    if (nowPointX <= squareWidth && pointX == -squareWidth) {
       return true
     }
 
     // right validate
-    if (Math.round(nowPointX) >= Math.round(squareWidth * 13) && point.x == squareWidth.toInt()) {
+    if ((nowPointX + 1).toInt() >= (squareWidth * 13).toInt() && pointX == squareWidth) {
       return true
     }
 
     // down validate
-    if (nowPointY >= squareHeight * 20 && point.y == squareHeight.toInt()) {
+    if (Math.round(nowPointY) >= Math.round(squareHeight * 20) && pointY == squareHeight) {
       return true
     }
 
     // up validate
-    if (Math.round(nowPointY) <= Math.round(squareHeight) && point.y == -squareHeight.toInt()) {
-      if (Math.round(nowPointX) != Math.round(squareWidth * 7) || Math.round(nowPointY) != Math.round(squareHeight)) {
+    if (Math.round(nowPointY) <= Math.round(squareHeight) && pointY == -squareHeight) {
+      if (nowPointX.toInt() != (squareWidth * 7).toInt() || Math.round(nowPointY) != Math.round(squareHeight)) {
         return true
       }
     }
@@ -546,8 +546,8 @@ class GameActivity : Activity() {
   }
 
   private fun getSquareNumber(point: Point): Int {
-    val i = (point.y / squareHeight - 1).toInt()
-    val j = (point.x / squareWidth - 1).toInt()
+    val i = Math.round(point.y / squareHeight - 1)
+    val j = Math.round(point.x / squareWidth - 1)
     return map[i][j]
   }
 
