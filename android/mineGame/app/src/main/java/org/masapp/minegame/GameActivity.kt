@@ -3,7 +3,6 @@ package org.masapp.minegame
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.ads.AdRequest
@@ -13,7 +12,10 @@ import com.google.android.gms.ads.MobileAds
 import org.masapp.minegame.Constant.AdSettings
 import java.io.IOException
 import android.app.Activity
+import android.graphics.Color
 import android.graphics.Point
+import android.os.Handler
+import android.view.MotionEvent
 import android.widget.RelativeLayout
 import org.masapp.minegame.Extension.dp
 
@@ -29,6 +31,21 @@ class GameActivity : Activity() {
   private lateinit var currentNumber: TextView
   private lateinit var stageInfo: ImageView
   private lateinit var stageInfoLabel: TextView
+  private lateinit var backImage: Bitmap
+  private lateinit var frontImage: Bitmap
+  private lateinit var leftImage: Bitmap
+  private lateinit var rightImage: Bitmap
+  private lateinit var relativeLayout: RelativeLayout
+  private lateinit var zeroImage: Bitmap
+  private lateinit var oneImage: Bitmap
+  private lateinit var twoImage: Bitmap
+  private lateinit var threeImage: Bitmap
+  private lateinit var fourImage: Bitmap
+  private lateinit var fiveImage: Bitmap
+  private lateinit var sixImage: Bitmap
+  private lateinit var sevenImage: Bitmap
+  private lateinit var eightImage: Bitmap
+  private lateinit var nineImage: Bitmap
 
   private var wscale: Float = 0f
   private var hscale: Float = 0f
@@ -44,7 +61,7 @@ class GameActivity : Activity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_game)
 
-    val relativeLayout = findViewById(R.id.mainLayout) as RelativeLayout
+    relativeLayout = findViewById(R.id.mainLayout) as RelativeLayout
     val displaySize = getDisplaySize(this)
     wscale = displaySize.x / 320f
     hscale = displaySize.y / 518f
@@ -72,7 +89,8 @@ class GameActivity : Activity() {
     background.scaleType = ImageView.ScaleType.FIT_XY
     val backgroundLP = RelativeLayout.LayoutParams(displaySize.x, displaySize.y - 50.dp)
     backgroundLP.addRule(RelativeLayout.ALIGN_PARENT_TOP)
-    relativeLayout.addView(background, backgroundLP)
+    background.layoutParams = backgroundLP
+    relativeLayout.addView(background)
 
     // charactor control button
     val control = ImageView(this)
@@ -80,14 +98,9 @@ class GameActivity : Activity() {
     control.setImageBitmap(controlImage)
     val controlLP = RelativeLayout.LayoutParams((96 * wscale).toInt(), (96 * hscale).toInt())
     controlLP.leftMargin = (9.6 * wscale).toInt()
-    controlLP.topMargin = displaySize.y - 50.dp - (96 * hscale).toInt()
-    relativeLayout.addView(control, controlLP)
-
-//    // chara at say numbers
-//    let charactorRect = CGRect(x: 166.4 * wscale, y: 421 * hscale - 50 + safeAreaInsets.top, width: 150.4 * wscale, height: 96 * hscale)
-//    let sayCharactor = UIImageView(frame: charactorRect)
-//    sayCharactor.image = UIImage(named: "usayuki")
-//    self.view.addSubview(sayCharactor)
+    controlLP.topMargin = (421 * hscale).toInt() - 50.dp
+    control.layoutParams = controlLP
+    relativeLayout.addView(control)
 
     // charactor at say numbers
     val sayCharactor = ImageView(this)
@@ -95,35 +108,102 @@ class GameActivity : Activity() {
     sayCharactor.setImageBitmap(sayCharactorImage)
     val sayCharactorLP = RelativeLayout.LayoutParams((150.4 * wscale).toInt(), (96 * hscale).toInt())
     sayCharactorLP.leftMargin = (166.4 * wscale).toInt()
-    sayCharactorLP.topMargin = displaySize.y - 50.dp - (96 * hscale).toInt()
-    relativeLayout.addView(sayCharactor, sayCharactorLP)
+    sayCharactorLP.topMargin = (421 * hscale).toInt() - 50.dp
+    sayCharactor.layoutParams = sayCharactorLP
+    relativeLayout.addView(sayCharactor)
 
-//    // current number
-//    currentNumber.frame = CGRect(x: 189 * wscale, y: 415 * hscale - 50 + safeAreaInsets.top, width: 96 * wscale, height: 96 * hscale)
-//    currentNumber.font = UIFont.systemFont(ofSize: 70 * wscale)
-//    self.view.addSubview(currentNumber)
-//
-//    // stage info
-//    stageInfo.frame = CGRect(x: 0, y: 199 * hscale, width: windowSize.size.width, height: 51 * hscale)
-//    stageInfo.image = UIImage(named: "info")
-//    stageInfoLabel.frame = CGRect(x: 80 * wscale, y: 0, width: 499 * wscale, height: 51 * hscale)
-//    stageInfoLabel.font = UIFont.systemFont(ofSize: 30 * wscale)
-//    stageInfoLabel.textColor = .white
-//        stageInfo.addSubview(stageInfoLabel)
-//
-//    retryLabel.frame = CGRect(x: 80 * wscale, y: 295 * hscale, width: 99 * wscale, height: 51 * hscale)
-//    retryLabel.font = UIFont.systemFont(ofSize: 30 * wscale)
-//    retryLabel.textColor = .white
-//        retryLabel.text = "retry"
-//
-//    titleLabel.frame = CGRect(x: 202 * wscale, y: 295 * hscale, width: 99 * wscale, height: 51 * hscale)
-//    titleLabel.font = UIFont.systemFont(ofSize: 30 * wscale)
-//    titleLabel.textColor = .white
-//        titleLabel.text = "title"
-//
-//    stageCount = 1
-//
-//    self.stageStart()
+    // current number
+    currentNumber = TextView(this)
+    currentNumber.setTextColor(Color.BLACK)
+    currentNumber.textSize = 25 * wscale
+    val currentNumberLP = RelativeLayout.LayoutParams((96 * wscale).toInt(), (96 * hscale).toInt())
+    currentNumberLP.leftMargin = (185 * wscale).toInt()
+    currentNumberLP.topMargin = (417 * hscale).toInt() - 50.dp
+    currentNumber.layoutParams = currentNumberLP
+    relativeLayout.addView(currentNumber)
+
+    // stage info
+    stageInfo = ImageView(this)
+    val stageInfoImage = getBitmapFromAssets("info.png")
+    stageInfo.setImageBitmap(stageInfoImage)
+    val stageInfoLP = RelativeLayout.LayoutParams(displaySize.x, (51 * hscale).toInt())
+    stageInfoLP.topMargin = (199 * hscale).toInt()
+    stageInfo.layoutParams = stageInfoLP
+    stageInfoLabel = TextView(this)
+    stageInfoLabel.setTextColor(Color.WHITE)
+    stageInfoLabel.textSize = 11 * wscale
+    val stageInfoLabelLP = RelativeLayout.LayoutParams((490 * wscale).toInt(), (55 * hscale).toInt())
+    stageInfoLabelLP.leftMargin = (80 * wscale).toInt()
+    stageInfoLabelLP.topMargin = (199 * hscale).toInt()
+    stageInfoLabel.layoutParams = stageInfoLabelLP
+
+    retryLabel = TextView(this)
+    retryLabel.setTextColor(Color.WHITE)
+    retryLabel.textSize = 11 * wscale
+    retryLabel.text = "retry"
+    val retryLabelLP = RelativeLayout.LayoutParams((99 * wscale).toInt(), (51 * hscale).toInt())
+    retryLabelLP.leftMargin = (80 * wscale).toInt()
+    retryLabelLP.topMargin = (295 * hscale).toInt()
+    retryLabel.layoutParams = retryLabelLP
+
+    titleLabel = TextView(this)
+    titleLabel.setTextColor(Color.WHITE)
+    titleLabel.textSize = 11 * wscale
+    titleLabel.text = "title"
+    val titleLabelLP = RelativeLayout.LayoutParams((99 * wscale).toInt(), (51 * hscale).toInt())
+    titleLabelLP.leftMargin = (202 * wscale).toInt()
+    titleLabelLP.topMargin = (295 * hscale).toInt()
+    titleLabel.layoutParams = titleLabelLP
+
+    stageCount = 1
+
+    createCharactorBitmapImage()
+    createBombNumberImage()
+    stageStart()
+  }
+
+  override fun onTouchEvent(event: MotionEvent?): Boolean {
+    if (event?.action == MotionEvent.ACTION_DOWN) {
+      when (status) {
+        "play" -> {
+          // up or down
+          if (41.5 * wscale <= event.x && event.x <= 75 * wscale) {
+            if (425 * hscale - 50.dp <= event.y && event.y <= 455.5 * hscale - 50.dp) {
+              charactor.setImageBitmap(backImage)
+              moveCharactor(Point(0, -squareHeight.toInt()))
+            } else if (485 * hscale - 50.dp <= event.y && event.y <= 515 * hscale - 50.dp) {
+              charactor.setImageBitmap(frontImage)
+              moveCharactor(Point(0, squareHeight.toInt()))
+            }
+          }
+          // left or right
+          if (455.5 * hscale - 50.dp <= event.y && event.y <= 485 * hscale - 50.dp) {
+            if (10 * wscale <= event.x && event.x <= 42 * wscale) {
+              charactor.setImageBitmap(leftImage)
+              moveCharactor(Point(-squareWidth.toInt(), 0))
+            } else if (77 * wscale <= event.x && event.x <= 105 * wscale) {
+              charactor.setImageBitmap(rightImage)
+              moveCharactor(Point(squareWidth.toInt(), 0))
+            }
+          }
+        }
+        "gameOver" -> {
+          if (312 * hscale <= event.y && event.y <= 340 * hscale) {
+            if (80 * wscale <= event.x && event.x <= 145 * wscale) {
+              stageCount = 1
+              relativeLayout.removeView(stageInfo)
+              relativeLayout.removeView(stageInfoLabel)
+              relativeLayout.removeView(retryLabel)
+              relativeLayout.removeView(titleLabel)
+              stageStart()
+            } else if (195 * wscale <= event.x && event.x <= 255 * wscale) {
+              finish()
+            }
+          }
+        }
+      }
+    }
+    return true
   }
 
   private fun getBitmapFromAssets(fileName: String): Bitmap? {
@@ -142,4 +222,374 @@ class GameActivity : Activity() {
     return point
   }
 
+  private fun createCharactorBitmapImage() {
+    getBitmapFromAssets("charactor/back.png")?.let {
+      backImage = it
+    }
+    getBitmapFromAssets("charactor/front.png")?.let {
+      frontImage = it
+    }
+    getBitmapFromAssets("charactor/left.png")?.let {
+      leftImage = it
+    }
+    getBitmapFromAssets("charactor/right.png")?.let {
+      rightImage = it
+    }
+  }
+
+  private fun createBombNumberImage() {
+    getBitmapFromAssets("number/0.png")?.let {
+      zeroImage = it
+    }
+    getBitmapFromAssets("number/1.png")?.let {
+      oneImage = it
+    }
+    getBitmapFromAssets("number/2.png")?.let {
+      twoImage = it
+    }
+    getBitmapFromAssets("number/3.png")?.let {
+      threeImage = it
+    }
+    getBitmapFromAssets("number/4.png")?.let {
+      fourImage = it
+    }
+    getBitmapFromAssets("number/5.png")?.let {
+      fiveImage = it
+    }
+    getBitmapFromAssets("number/6.png")?.let {
+      sixImage = it
+    }
+    getBitmapFromAssets("number/7.png")?.let {
+      sevenImage = it
+    }
+    getBitmapFromAssets("number/8.png")?.let {
+      eightImage = it
+    }
+    getBitmapFromAssets("number/9.png")?.let {
+      nineImage = it
+    }
+  }
+
+  private fun drawMap(mapArray: List<List<Int>>) {
+    drawGround(mapArray)
+    drawFence()
+  }
+
+  private fun drawGround(mapArray: List<List<Int>>) {
+    // draw ground
+    val groundImage = getBitmapFromAssets("ground/soil.png")
+    for (i in 0 .. mapArray.size - 1) {
+      for (j in 0 .. mapArray[i].size - 1) {
+        // ground
+        val ground = ImageView(this)
+        ground.setImageBitmap(groundImage)
+        val groundLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+        groundLP.leftMargin = (squareWidth * (j + 1)).toInt()
+        groundLP.topMargin = (squareHeight * (i + 1)).toInt()
+        ground.layoutParams = groundLP
+        relativeLayout.addView(ground)
+      }
+    }
+  }
+
+  private fun drawFence() {
+    // left top corner
+    val leftTopCornerImage = getBitmapFromAssets("fence/left_top_corner.png")
+    val leftTopCorner = ImageView(this)
+    leftTopCorner.setImageBitmap(leftTopCornerImage)
+    leftTopCorner.scaleType = ImageView.ScaleType.FIT_XY
+    val leftTopCornerLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+    leftTopCorner.layoutParams = leftTopCornerLP
+    relativeLayout.addView(leftTopCorner)
+
+    // right top corner
+    val rightTopCornerImage = getBitmapFromAssets("fence/right_top_corner.png")
+    val rightTopCorner = ImageView(this)
+    rightTopCorner.setImageBitmap(rightTopCornerImage)
+    rightTopCorner.scaleType = ImageView.ScaleType.FIT_XY
+    val rightTopCornerLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+    rightTopCornerLP.leftMargin = (squareWidth * 14).toInt()
+    rightTopCorner.layoutParams = rightTopCornerLP
+    relativeLayout.addView(rightTopCorner)
+
+    // left under corner
+    val leftUnderCornerImage = getBitmapFromAssets("fence/left_under_corner.png")
+    val leftUnderCorner = ImageView(this)
+    leftUnderCorner.setImageBitmap(leftUnderCornerImage)
+    leftUnderCorner.scaleType = ImageView.ScaleType.FIT_XY
+    val leftUnderCornerLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+    leftUnderCornerLP.topMargin = (squareHeight * 21).toInt()
+    leftUnderCorner.layoutParams = leftUnderCornerLP
+    relativeLayout.addView(leftUnderCorner)
+
+    // right under corner
+    val rightUnderCornerImage = getBitmapFromAssets("fence/right_under_corner.png")
+    val rightUnderCorner = ImageView(this)
+    rightUnderCorner.setImageBitmap(rightUnderCornerImage)
+    rightUnderCorner.scaleType = ImageView.ScaleType.FIT_XY
+    val rightUnderCornerLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+    rightUnderCornerLP.leftMargin = (squareWidth * 14).toInt()
+    rightUnderCornerLP.topMargin = (squareHeight * 21).toInt()
+    rightUnderCorner.layoutParams = rightUnderCornerLP
+    relativeLayout.addView(rightUnderCorner)
+
+    // height
+    val heightImage = getBitmapFromAssets("fence/height.png")
+    for (i in 0 .. 19) {
+      val leftHeight = ImageView(this)
+      leftHeight.setImageBitmap(heightImage)
+      leftHeight.scaleType = ImageView.ScaleType.FIT_XY
+      val leftHeightLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      leftHeightLP.topMargin = (squareHeight * (i + 1)).toInt()
+      leftHeight.layoutParams = leftHeightLP
+      relativeLayout.addView(leftHeight)
+
+      val rightHeight = ImageView(this)
+      rightHeight.setImageBitmap(heightImage)
+      rightHeight.scaleType = ImageView.ScaleType.FIT_XY
+      val rightHeightLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      rightHeightLP.leftMargin = (squareWidth * 14).toInt()
+      rightHeightLP.topMargin = (squareHeight * (i + 1)).toInt()
+      rightHeight.layoutParams = rightHeightLP
+      relativeLayout.addView(rightHeight)
+    }
+
+    // width
+    val widthImage = getBitmapFromAssets("fence/width.png")
+    for (i in 0 .. 4) {
+      val leftTopWidth = ImageView(this)
+      leftTopWidth.setImageBitmap(widthImage)
+      leftTopWidth.scaleType = ImageView.ScaleType.FIT_XY
+      val leftTopWidthLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      leftTopWidthLP.leftMargin = (squareWidth * (i + 1)).toInt()
+      leftTopWidth.layoutParams = leftTopWidthLP
+      relativeLayout.addView(leftTopWidth)
+
+      val rightTopWidth = ImageView(this)
+      rightTopWidth.setImageBitmap(widthImage)
+      rightTopWidth.scaleType = ImageView.ScaleType.FIT_XY
+      val rightTopWidthLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      rightTopWidthLP.leftMargin = (squareWidth * (i + 9)).toInt()
+      rightTopWidth.layoutParams = rightTopWidthLP
+      relativeLayout.addView(rightTopWidth)
+
+      val leftUnderWidth = ImageView(this)
+      leftUnderWidth.setImageBitmap(widthImage)
+      leftUnderWidth.scaleType = ImageView.ScaleType.FIT_XY
+      val leftUnderWidthLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      leftUnderWidthLP.leftMargin = (squareWidth * (i + 1)).toInt()
+      leftUnderWidthLP.topMargin = (squareHeight * 21).toInt()
+      leftUnderWidth.layoutParams = leftUnderWidthLP
+      relativeLayout.addView(leftUnderWidth)
+
+      val rightUnderWidth = ImageView(this)
+      rightUnderWidth.setImageBitmap(widthImage)
+      rightUnderWidth.scaleType = ImageView.ScaleType.FIT_XY
+      val rightUnderWidthLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      rightUnderWidthLP.leftMargin = (squareWidth * (i + 9)).toInt()
+      rightUnderWidthLP.topMargin = (squareHeight * 21).toInt()
+      rightUnderWidth.layoutParams = rightUnderWidthLP
+      relativeLayout.addView(rightUnderWidth)
+    }
+
+    // start and end
+    val leftEndImage = getBitmapFromAssets("fence/left_end.png")
+    val rightEndImage = getBitmapFromAssets("fence/right_end.png")
+    val flatImage = getBitmapFromAssets("ground/grass.png")
+    for (i in 0 .. 1) {
+      val leftEnd = ImageView(this)
+      leftEnd.setImageBitmap(leftEndImage)
+      leftEnd.scaleType = ImageView.ScaleType.FIT_XY
+      val leftEndLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      leftEndLP.leftMargin = (squareWidth * 8).toInt()
+      leftEndLP.topMargin = (squareHeight * (i * 21)).toInt()
+      leftEnd.layoutParams = leftEndLP
+      relativeLayout.addView(leftEnd)
+
+      val rightEnd = ImageView(this)
+      rightEnd.setImageBitmap(rightEndImage)
+      rightEnd.scaleType = ImageView.ScaleType.FIT_XY
+      val rightEndLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      rightEndLP.leftMargin = (squareWidth * 6).toInt()
+      rightEndLP.topMargin = (squareHeight * (i * 21)).toInt()
+      rightEnd.layoutParams = rightEndLP
+      relativeLayout.addView(rightEnd)
+
+      val flat = ImageView(this)
+      flat.setImageBitmap(flatImage)
+      flat.scaleType = ImageView.ScaleType.FIT_XY
+      val flatLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      flatLP.leftMargin = (squareWidth * 7).toInt()
+      flatLP.topMargin = (squareHeight * (i * 21)).toInt()
+      flat.layoutParams = flatLP
+      relativeLayout.addView(flat)
+    }
+  }
+
+  // put the charactor to the start position
+  private fun setCharactor() {
+    val charactorLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+    charactorLP.leftMargin = (squareWidth * 7).toInt()
+    charactorLP.topMargin = (squareHeight * 21).toInt()
+    charactor = ImageView(this)
+    charactor.setImageBitmap(backImage)
+    charactor.scaleType = ImageView.ScaleType.FIT_XY
+    charactor.layoutParams = charactorLP
+    relativeLayout.addView(charactor)
+  }
+
+  private fun moveCharactor(point: Point) {
+    val nowPointX = charactor.x
+    val nowPointY = charactor.y
+    if (moveValidate(point)) {
+      return
+    }
+
+    // charactor move
+    charactor.x = nowPointX + point.x
+    charactor.y = nowPointY + point.y
+
+    if (Math.round(charactor.x) == Math.round(squareWidth * 7) && Math.round(charactor.y) == 0) {
+      stageComplete()
+      return
+    }
+
+    // check bomb
+    checkBomb(Point(charactor.x.toInt(), charactor.y.toInt()))
+  }
+
+  private fun moveValidate(point: Point): Boolean {
+    val nowPointX = charactor.x
+    val nowPointY = charactor.y
+
+    // start position
+    if (nowPointX == squareWidth * 7 && nowPointY == squareHeight * 21) {
+      if (point.x != 0) {
+        return true
+      }
+    }
+
+    // left validate
+    if (nowPointX <= squareWidth && point.x == -squareWidth.toInt()) {
+      return true
+    }
+
+    // right validate
+    if (Math.round(nowPointX) >= Math.round(squareWidth * 13) && point.x == squareWidth.toInt()) {
+      return true
+    }
+
+    // down validate
+    if (nowPointY >= squareHeight * 20 && point.y == squareHeight.toInt()) {
+      return true
+    }
+
+    // up validate
+    if (Math.round(nowPointY) <= Math.round(squareHeight) && point.y == -squareHeight.toInt()) {
+      if (Math.round(nowPointX) != Math.round(squareWidth * 7) || Math.round(nowPointY) != Math.round(squareHeight)) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  private fun stageStart() {
+    // disable touch events
+    relativeLayout.isEnabled = false
+
+    val mapGenerator = MapGenerator()
+    map = mapGenerator.towDimensionalArrayForMap()
+    drawMap(map)
+
+    // current square number init
+    currentNumber.text = ""
+
+    // put the charactor to the start position
+    setCharactor()
+
+    // show next stage count
+    relativeLayout.addView(stageInfo)
+    stageInfoLabel.text = "stage ${stageCount} start"
+    relativeLayout.addView(stageInfoLabel)
+
+    // timer to hide stage info
+    Handler().postDelayed(Runnable {
+      // enable touch events
+      relativeLayout.isEnabled = true
+      relativeLayout.removeView(stageInfo)
+      relativeLayout.removeView(stageInfoLabel)
+      status = "play"
+    }, 2000)
+  }
+
+  private fun stageComplete() {
+    // disable touch events
+    relativeLayout.isEnabled = false
+
+    // show stage clear info
+    relativeLayout.addView(stageInfo)
+    stageInfoLabel.text = "stage ${stageCount} clear"
+    relativeLayout.addView(stageInfoLabel)
+
+    stageCount += 1
+
+    // timer to hide clear info
+    Handler().postDelayed(Runnable {
+      // enable touch events
+      relativeLayout.isEnabled = true
+      relativeLayout.removeView(stageInfo)
+      relativeLayout.removeView(stageInfoLabel)
+
+      stageStart()
+    }, 2000)
+  }
+
+  private fun getSquareNumber(point: Point): Int {
+    val i = (point.y / squareHeight - 1).toInt()
+    val j = (point.x / squareWidth - 1).toInt()
+    return map[i][j]
+  }
+
+  private fun checkBomb(point: Point) {
+    val squareNumber = getSquareNumber(point)
+    if (squareNumber == -1) {
+      relativeLayout.addView(stageInfo)
+      stageInfoLabel.text = "game over"
+      relativeLayout.addView(stageInfoLabel)
+      status = "gameOver"
+
+      relativeLayout.addView(retryLabel)
+      relativeLayout.addView(titleLabel)
+    } else {
+      // current square number
+      currentNumber.text = squareNumber.toString()
+
+      // bomb count
+      val bombCount = ImageView(this)
+      bombCount.setImageBitmap(getNumberImage(squareNumber))
+      val bombCountLP = RelativeLayout.LayoutParams(groundWidth.toInt(), groundHeight.toInt())
+      bombCountLP.leftMargin = point.x
+      bombCountLP.topMargin = point.y
+      bombCount.layoutParams = bombCountLP
+      relativeLayout.addView(bombCount)
+      charactor.bringToFront()
+    }
+  }
+
+  private fun getNumberImage(number: Int): Bitmap? {
+    when (number) {
+      0 -> return zeroImage
+      1 -> return oneImage
+      2 -> return twoImage
+      3 -> return threeImage
+      4 -> return fourImage
+      5 -> return fiveImage
+      6 -> return sixImage
+      7 -> return sevenImage
+      8 -> return eightImage
+      9 -> return nineImage
+    }
+    return null
+  }
 }
